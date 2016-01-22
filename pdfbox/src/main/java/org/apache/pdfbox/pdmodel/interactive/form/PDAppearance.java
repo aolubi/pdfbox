@@ -815,11 +815,19 @@ public class PDAppearance
             COSName cosFontName = (COSName) tokens.get(setFontIndex - 2);
             String fontName = cosFontName.getName();
             retval = (PDFont) streamResources.getFonts().get(fontName);
-            if (retval == null)
-            {
-                retval = (PDFont) formResources.getFonts().get(fontName);
-                streamResources.addFont(retval, fontName);
-            }
+//            if (retval == null)
+//            {
+//                retval = (PDFont) formResources.getFonts().get(fontName);
+//                streamResources.addFont(retval, fontName);
+//            }
+            
+            //-->22/01/2016 : Correction de la JIRA 095 
+            //-->[CERFA] [URGENT] Migration de la version pdfbox vers 1.8.10
+	         if (retval == null) {
+	             retval = (PDFont) formResources.getFonts().values().toArray()[formResources.getFonts().size() -1];
+	         }
+	         //<--
+
         }
         return retval;
     }
